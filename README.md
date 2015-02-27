@@ -122,7 +122,6 @@ cf scale <app_name> -i 1
 Test the update portion of the app by committing a change to the GitHub repository. This can be done by checking in a minor change to the text file of the app and submitting a pull request to add that to the master copy. Once the pull request is merged and the app page is refreshed the Update button will now be active. Clicking the Update button will trigger the Jenkins job which does a blue-green deploy of the app and refreshes the page with the updated text file.
 A basic GitHub guide for committing changes and creating and merging pull requests can be found [here] [commit].
 
-Enjoy
 
 [pws]:https://run.pivotal.io
 [token]:https://help.github.com/articles/creating-an-access-token-for-command-line-use/ 
