@@ -30,9 +30,6 @@ public class ApplicationStatisticsRestController {
 	public ApplicationStatistics statistics(HttpServletRequest request) throws Exception {
 		ApplicationStatistics statistics = statisticsProvider.getCurrentStatistics(getApplicationName());
 
-		statistics.setHost(request.getLocalAddr());
-		statistics.setPort(request.getLocalPort());
-
 		return statistics;
 	}
 

@@ -5,6 +5,7 @@ import java.net.URL;
 import org.cloudfoundry.client.lib.CloudCredentials;
 import org.cloudfoundry.client.lib.CloudFoundryClient;
 import org.cloudfoundry.client.lib.CloudFoundryOperations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
@@ -24,8 +25,11 @@ import com.ecsteam.cloudlaunch.services.statistics.JvmStatisticsProvider;
 
 @Configuration
 @EnableConfigurationProperties(ApplicationStatisticsProperties.class)
-@ConditionalOnProperty(prefix = "cloudfoundry.dashboard", name = "enabled")
+@ConditionalOnProperty(prefix = "statistics.dashboard", name = "enabled")
 public class ApplicationStatisticsConfiguration {
+	@Autowired
+	private ApplicationStatisticsProperties properties;
+
 	@Bean
 	public ApplicationStatisticsRestController restController() {
 		return new ApplicationStatisticsRestController();
@@ -33,8 +37,6 @@ public class ApplicationStatisticsConfiguration {
 
 	@Bean
 	public CloudFoundryOperations cloudFoundryClient() throws Exception {
-		ApplicationStatisticsProperties properties = new ApplicationStatisticsProperties();
-
 		URL cfUrl = new URL(properties.getUrl());
 		CloudCredentials creds = new CloudCredentials(properties.getUser(), properties.getPassword());
 		CloudFoundryOperations client = new CloudFoundryClient(creds, cfUrl, properties.isTrustSelfSignedCerts());
@@ -47,7 +49,7 @@ public class ApplicationStatisticsConfiguration {
 	 * 
 	 * @return
 	 */
-	@Conditional(InCloudFoundry.class)
+	@Conditional(CanMonitorCloudFoundryService.class)
 	@Bean
 	public ApplicationStatisticsProvider cloudFoundryStatisticsProvider() {
 		return new CloudFoundryStatisticsProvider();
@@ -58,7 +60,7 @@ public class ApplicationStatisticsConfiguration {
 	 * 
 	 * @return
 	 */
-	@Conditional(NotInCloudFoundry.class)
+	@Conditional(CannotMonitorCloudFoundryService.class)
 	@Bean
 	public ApplicationStatisticsProvider jvmStatisticsProvider() {
 		return new JvmStatisticsProvider();
@@ -71,27 +73,33 @@ public class ApplicationStatisticsConfiguration {
 	 * @author Josh Ghiloni
 	 *
 	 */
-	private static class InCloudFoundry extends SpringBootCondition {
+	private static class CanMonitorCloudFoundryService extends SpringBootCondition {
 		@Override
 		public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
+			String monitoredService = context.getEnvironment().getProperty("statistics.dashboard.monitoredService");
 			String vcapApp = System.getenv("VCAP_APPLICATION");
 
+			if (StringUtils.hasText(monitoredService)) {
+				return ConditionOutcome.match("Monitoring remote service");
+			}
+
 			if (StringUtils.hasText(vcapApp)) {
-				return ConditionOutcome.match("VCAP_APPLICATION env variable is present");
+				return ConditionOutcome.match("Monitoring local service and VCAP_APPLICATION env variable is present");
 			} else {
-				return ConditionOutcome.noMatch("VCAP_APPLICATION env variable is not present");
+				return ConditionOutcome
+						.noMatch("Monitoring local service and VCAP_APPLICATION env variable is not present");
 			}
 		}
 	}
 
 	/**
-	 * Matches if {@link InCloudFoundry} does NOT match
+	 * Matches if {@link CanMonitorCloudFoundryService} does NOT match
 	 * 
 	 * @author Josh Ghiloni
 	 *
 	 */
-	private static class NotInCloudFoundry extends SpringBootCondition {
-		private InCloudFoundry opposite = new InCloudFoundry();
+	private static class CannotMonitorCloudFoundryService extends SpringBootCondition {
+		private CanMonitorCloudFoundryService opposite = new CanMonitorCloudFoundryService();
 
 		@Override
 		public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
