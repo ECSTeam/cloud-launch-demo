@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.ecsteam</groupId>
+	<artifactId>cloud-launch-demo</artifactId>
+	<version>2.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>cloud-launch</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>4.1.6.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<version>1.2.4.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<!-- Only needed at compile time -->
+			<optional>true</optional>
+			<version>1.16.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.cloudfoundry</groupId>
+			<artifactId>cloudfoundry-client-lib</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+	
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.1</version>
+            <executions>
+               <execution>
+                  <id>default-compile</id>
+                  <configuration>
+                     <showDeprecation>true</showDeprecation>
+                     <showWarnings>true</showWarnings>
+                     <compilerArguments>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                     </compilerArguments>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>default-testCompile</id>
+                  <configuration>
+                     <showDeprecation>true</showDeprecation>
+                     <showWarnings>true</showWarnings>
+                     <compilerArguments>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                     </compilerArguments>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+	</plugins>
+		
+	</build>
+
+</project>
