@@ -42,21 +42,6 @@ public class CloudFoundryStatisticsProvider implements ApplicationStatisticsProv
 
 	private static long MEGS_TO_BYTES = 1048576L;
 
-	public ApplicationStatistics getCurrentStatistics() throws IOException {
-		String vcapApplicationString = System.getenv("VCAP_APPLICATION");
-		application = (new ObjectMapper()).readValue(vcapApplicationString, VcapApplication.class);
-
-		Limits limits = application.getLimits();
-		if (limits == null) {
-			limits = new Limits();
-			limits.setDisk(-1);
-			limits.setFds(-1);
-			limits.setMem(-1);
-		}
-
-		return getCurrentStatistics(application.getApplicationName());
-	}
-
 	@Override
 	public ApplicationStatistics getCurrentStatistics(String applicationName) throws IOException {
 		CloudApplication appInfo = client.getApplication(applicationName);
