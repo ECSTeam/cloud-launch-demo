@@ -5,12 +5,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import lombok.Data;
 
 @Data
-@ConfigurationProperties("statistics.dashboard")
+@ConfigurationProperties("cloudlaunch.statistics")
 public class ApplicationStatisticsProperties {
 	
 	private boolean enabled = false;
-	
-	private boolean uienabled = false;
 	
 	private String url = null;
 	

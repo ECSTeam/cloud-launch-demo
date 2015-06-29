@@ -25,7 +25,7 @@ import com.ecsteam.cloudlaunch.services.statistics.JvmStatisticsProvider;
 
 @Configuration
 @EnableConfigurationProperties(ApplicationStatisticsProperties.class)
-@ConditionalOnProperty(prefix = "statistics.dashboard", name = "enabled")
+@ConditionalOnProperty(prefix = "cloudlaunch.statistics", name = "enabled")
 public class ApplicationStatisticsConfiguration {
 	@Autowired
 	private ApplicationStatisticsProperties properties;
@@ -76,7 +76,7 @@ public class ApplicationStatisticsConfiguration {
 	private static class CanMonitorCloudFoundryService extends SpringBootCondition {
 		@Override
 		public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
-			String monitoredService = context.getEnvironment().getProperty("statistics.dashboard.monitoredService");
+			String monitoredService = context.getEnvironment().getProperty("cloudlaunch.statistics.monitoredService");
 			String vcapApp = System.getenv("VCAP_APPLICATION");
 
 			if (StringUtils.hasText(monitoredService)) {

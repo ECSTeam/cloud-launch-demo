@@ -1,0 +1,105 @@
+tr.activeInstance {
+	background-color: white;
+	border: 1px solid #9a9aba;
+	font-weight: bold;
+}
+
+div.locationDetails {
+	width: 100%;
+}
+
+div.locationDetails div {
+	width: 100%;
+	text-align: center;
+}
+
+div.tile {
+	margin: 10px;
+	border-radius: 8px;
+	border: 1px solid #9a9aba;
+	padding: 0;
+	display: inline-block;
+	height: 220px;
+	margin: 10px;
+	width: 45%;
+	overflow: hidden;
+}
+
+div.tile div.title {
+	padding: 5px 0;
+	text-align: center;
+	width: 100%;
+	background-color: #686868;
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+}
+
+div.tile div.container {
+	margin: 5px;
+	padding: 5px;
+	height: 150px;
+	border: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+div.tile div.container.chart {
+	margin: 0px;
+	padding: 0px;
+	height: 180px;
+	border: 0;
+	overflow: hidden;
+}
+
+
+header {
+	position: fixed;
+	top: 0;
+	min-height: 240px;
+	width: 100%;
+	padding: 10px
+}
+
+header.hidden {
+	height: 0;
+	min-height: 0;
+}
+
+header div.loading {
+	width: 100%;
+	text-align: center;
+	font-size: 14pt;
+	height: 100%;
+	vertical-align: middle; 
+}
+
+table.instDetails th, table.instDetails td {
+	border: 1px solid #9a9aba;
+}
+
+table.instDetails td {
+	text-align: center;
+}
+
+table.instDetails thead tr:first-child th, table.instDetails tfoot tr:first-child th {
+	font-size: 16pt;
+	padding: 0;
+	margin: 0;
+}
+
+table.instDetails {
+	width: 100%;
+}
+
+.locationDetails a {
+	color: #cc2222;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+header {
+	background: #fafafa; /* Old browsers */
+}

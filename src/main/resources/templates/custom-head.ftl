@@ -1,0 +1,2 @@
+<#-- this file should be overridden by implementers who wish to customize the head of this dashboard to their liking -->
+<#-- contents will appear inside the html <head> tag, after standard components -->

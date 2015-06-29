@@ -1,6 +1,7 @@
-<#import "/spring.ftl" as spring />
+[#ftl]
+[#import "/spring.ftl" as spring /]
 <!doctype html>
 <html>
-<#import "dashboard-head.ftl" />
-<#import "dashboard-body.ftl" />
+[#include "dashboard-head.ftl" /]
+[#include "dashboard-body.ftl" /]
 </html>

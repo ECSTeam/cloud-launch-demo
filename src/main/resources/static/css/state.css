@@ -1,0 +1,27 @@
+.instanceState {
+	font-size: 24px;
+}
+
+.instanceState.RUNNING {
+	color: #1d9d74;
+}
+
+.instanceState.STARTING {
+	color: #ffcc00;
+}
+
+.instanceState.UNKNOWN {
+	color: #a0a0a0;
+}
+
+.instanceState.CRASHED {
+	color: #cc2222;
+}
+
+.instanceState.FLAPPING {
+	color: #e66916;
+}
+
+.instanceState.DOWN {
+	color: #000089;
+}

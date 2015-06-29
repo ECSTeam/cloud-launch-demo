@@ -1,0 +1,46 @@
+@import url("./dashboard.css");
+
+@import url("./state.css");
+
+* {
+	font-family: "Calibri", Helvetica, Arial, sans-serif;
+}
+
+body, td {
+	font-size: 12pt;
+}
+
+table {
+	border: 0;
+	padding: 0;
+	border-collapse: collapse;
+}
+
+#update, #pageContent {
+	display: inline-block;
+	vertical-align: top
+}
+
+#update {
+	width: 30%;
+	text-align: center;
+	margin-top: 5%;
+}
+
+#pageContent {
+	width: 65%;
+}
+
+#pageContent p:first-child {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+h1.title {
+	width: 100%;
+	text-align: center;
+}
+
+#updateButton {
+	margin: 4px;
+}

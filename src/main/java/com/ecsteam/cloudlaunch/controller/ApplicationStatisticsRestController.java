@@ -42,7 +42,7 @@ public class ApplicationStatisticsRestController {
 				monitoredService = application.getApplicationName();
 			}
 		}
-		
+
 		return monitoredService;
 	}
 }
