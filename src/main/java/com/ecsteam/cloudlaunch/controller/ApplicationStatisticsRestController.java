@@ -26,11 +26,9 @@ public class ApplicationStatisticsRestController {
 	@Autowired
 	private ApplicationStatisticsProperties properties;
 
-	@RequestMapping("/statistics")
+	@RequestMapping("/services/statistics")
 	public ApplicationStatistics statistics(HttpServletRequest request) throws Exception {
-		ApplicationStatistics statistics = statisticsProvider.getCurrentStatistics(getApplicationName());
-
-		return statistics;
+		return statisticsProvider.getCurrentStatistics(getApplicationName());
 	}
 
 	private String getApplicationName() throws Exception {
