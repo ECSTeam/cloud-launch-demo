@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.StringUtils;
 
@@ -34,6 +36,7 @@ public class ApplicationStatisticsConfiguration {
 	}
 
 	@Bean
+	@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS, value = "session")
 	public CloudFoundryOperations cloudFoundryClient() throws Exception {
 		URL cfUrl = new URL(properties.getUrl());
 		CloudCredentials creds = new CloudCredentials(properties.getUser(), properties.getPassword());
