@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.Conditional;
@@ -24,7 +23,6 @@ import com.ecsteam.cloudlaunch.services.statistics.CloudFoundryStatisticsProvide
 import com.ecsteam.cloudlaunch.services.statistics.JvmStatisticsProvider;
 
 @Configuration
-@EnableConfigurationProperties(ApplicationStatisticsProperties.class)
 @ConditionalOnProperty(prefix = "cloudlaunch.statistics", name = "enabled")
 public class ApplicationStatisticsConfiguration {
 	@Autowired
