@@ -18,13 +18,13 @@ package com.ecsteam.cloudlaunch.services.github;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.github.api.GitHub;
 import org.springframework.social.github.api.GitHubCommit;
 import org.springframework.social.github.api.GitHubUser;
 import org.springframework.social.github.api.RepoOperations;
-import org.springframework.social.github.connect.GitHubServiceProvider;
 
+import com.ecsteam.cloudlaunch.SelfUpdateProperties;
 import com.ecsteam.cloudlaunch.services.github.model.GithubCommit;
 
 /**
@@ -32,25 +32,15 @@ import com.ecsteam.cloudlaunch.services.github.model.GithubCommit;
  *
  */
 public class GithubService {
-	@Value("${ecs.github.clientId:}")
-	private String clientId;
+	@Autowired
+	private SelfUpdateProperties properties;
 	
-	@Value("${ecs.github.clientSecret:}")
-	private String clientSecret;
+	@Autowired
+	private GitHub client;
 	
-	@Value("${ecs.github.repoName:}")
-	private String repoName;
-	
-	@Value("${ecs.github.repoOwner:}")
-	private String repoOwner;
-	
-	@Value("${ecs.github.accessToken:}")
-	private String accessToken;
-
 	public GithubCommit getLatestCommit() {
-		GitHub client = getClient();
 		RepoOperations repoClient = client.repoOperations();
-		List<GitHubCommit> commits = repoClient.getCommits(repoOwner, repoName);
+		List<GitHubCommit> commits = repoClient.getCommits(properties.getGitRepoOwner(), properties.getGitRepo());
 		
 		if (commits != null && commits.size() > 0) {
 			GitHubCommit commit = commits.get(0);
@@ -74,10 +64,5 @@ public class GithubService {
 		}
 		
 		return null;
-	}
-	
-	private GitHub getClient() {
-		GitHubServiceProvider factory = new GitHubServiceProvider(clientId, clientSecret);
-		return factory.getApi(accessToken);
 	}
 }

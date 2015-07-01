@@ -67,6 +67,28 @@ public class ApplicationStatisticsConfiguration {
 		return new JvmStatisticsProvider();
 	}
 
+	@Bean
+	public SelfMonitoringMarker markerBean() {
+		String vcapApp = System.getenv("VCAP_APPLICATION");
+		String monitoredService = properties.getMonitoredService();
+		
+		if (StringUtils.hasText(vcapApp) && StringUtils.isEmpty(monitoredService)) {
+			return SelfMonitoringMarker.INSTANCE;
+		}
+		
+		return null;
+	}
+
+	/**
+	 * A marker bean class to indicate that the service is monitoring itself
+	 */
+	public static class SelfMonitoringMarker {
+		private SelfMonitoringMarker() {
+		}
+
+		public static final SelfMonitoringMarker INSTANCE = new SelfMonitoringMarker();
+	}
+
 	/**
 	 * Matches if the VCAP_APPLICATION environment variable is present, letting us know that we are in -- or are trying
 	 * to pretend we are in -- a Cloud Foundry environment
