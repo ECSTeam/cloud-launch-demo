@@ -19,6 +19,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.StringUtils;
 
 import com.ecsteam.cloudlaunch.ApplicationStatisticsProperties;
+import com.ecsteam.cloudlaunch.MonitoredService;
 import com.ecsteam.cloudlaunch.controller.ApplicationStatisticsRestController;
 import com.ecsteam.cloudlaunch.services.statistics.ApplicationStatisticsProvider;
 import com.ecsteam.cloudlaunch.services.statistics.CloudFoundryStatisticsProvider;
@@ -40,8 +41,22 @@ public class ApplicationStatisticsConfiguration {
 	public CloudFoundryOperations cloudFoundryClient() throws Exception {
 		URL cfUrl = new URL(properties.getUrl());
 		CloudCredentials creds = new CloudCredentials(properties.getUser(), properties.getPassword());
-		CloudFoundryOperations client = new CloudFoundryClient(creds, cfUrl, properties.isTrustSelfSignedCerts());
+		CloudFoundryOperations client = null;
 
+		MonitoredService service = properties.getMonitoredService();
+		if (service != null) {
+			String org = service.getOrg();
+			String space = service.getSpace();
+
+			if (StringUtils.hasText(org) && StringUtils.hasText(space)) {
+				client = new CloudFoundryClient(creds, cfUrl, org, space, properties.isTrustSelfSignedCerts());
+			}
+		}
+
+		if (client == null) {
+			client = new CloudFoundryClient(creds, cfUrl, properties.isTrustSelfSignedCerts());
+		}
+		
 		return client;
 	}
 
@@ -70,12 +85,17 @@ public class ApplicationStatisticsConfiguration {
 	@Bean
 	public SelfMonitoringMarker markerBean() {
 		String vcapApp = System.getenv("VCAP_APPLICATION");
-		String monitoredService = properties.getMonitoredService();
-		
+		MonitoredService service = properties.getMonitoredService();
+		String monitoredService = null;
+
+		if (service != null) {
+			monitoredService = service.getName();
+		}
+
 		if (StringUtils.hasText(vcapApp) && StringUtils.isEmpty(monitoredService)) {
 			return SelfMonitoringMarker.INSTANCE;
 		}
-		
+
 		return null;
 	}
 

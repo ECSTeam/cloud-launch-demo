@@ -16,7 +16,7 @@ public class ApplicationStatisticsProperties {
 	
 	private String password = null;
 	
-	private String monitoredService = null;
+	private MonitoredService monitoredService = null;
 	
 	private boolean trustSelfSignedCerts = false;
 }

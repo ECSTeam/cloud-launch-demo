@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecsteam.cloudlaunch.ApplicationStatisticsProperties;
+import com.ecsteam.cloudlaunch.MonitoredService;
 import com.ecsteam.cloudlaunch.services.statistics.ApplicationStatisticsProvider;
 import com.ecsteam.cloudlaunch.services.statistics.model.ApplicationStatistics;
 import com.ecsteam.cloudlaunch.services.statistics.model.VcapApplication;
@@ -32,7 +33,12 @@ public class ApplicationStatisticsRestController {
 	}
 
 	private String getApplicationName() throws Exception {
-		String monitoredService = properties.getMonitoredService();
+		MonitoredService service = properties.getMonitoredService();
+
+		String monitoredService = null;
+		if (service != null) {
+			monitoredService = service.getName();
+		}
 
 		if (monitoredService == null) {
 			String vcapApplicationString = env.getProperty("vcap.application");
